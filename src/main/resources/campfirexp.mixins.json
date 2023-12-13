@@ -3,7 +3,8 @@
 	"package": "top.ithilelda.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"LivingEntityMixin"
+		"LivingEntityMixin",
+		"LivingEntityAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1
