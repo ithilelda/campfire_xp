@@ -1,9 +1,8 @@
 plugins {
 	id 'fabric-loom' version '1.4-SNAPSHOT'
-	id 'maven-publish'
 }
 
-version = project.mod_version
+version = project.mod_version + '-' + project.minecraft_version
 group = project.maven_group
 
 base {
@@ -22,9 +21,8 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"modid" {
+		"campfirexp" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 
@@ -65,27 +63,4 @@ java {
 
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
-}
-
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
 }
