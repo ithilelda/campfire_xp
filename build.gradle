@@ -1,5 +1,6 @@
 plugins {
 	id 'fabric-loom' version '1.4-SNAPSHOT'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version + '-' + project.minecraft_version
@@ -63,4 +64,14 @@ java {
 
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
+}
+
+modrinth {
+	token = System.getenv("MODRINTH_TOKEN") // This is the default. Remember to have the MODRINTH_TOKEN environment variable set or else this will fail, or set it to whatever you want - just make sure it stays private!
+	projectId = "campfire-xp" // This can be the project ID or the slug. Either will work!
+	versionType = "release" // This is the default -- can also be `beta` or `alpha`
+	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
+	gameVersions = ["1.20", "1.20.1"] // Must be an array, even with only one version
+	loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+	syncBodyFrom = rootProject.file("README.md").text
 }
