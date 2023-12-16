@@ -18,17 +18,6 @@ repositories {
 	// for more information about repositories.
 }
 
-loom {
-    splitEnvironmentSourceSets()
-
-	mods {
-		"campfirexp" {
-			sourceSet sourceSets.main
-		}
-	}
-
-}
-
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -37,18 +26,21 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
-	// Uncomment the following line to enable the deprecated Fabric API modules. 
-	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
-
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.properties([
+			"mod_version": project.property("mod_version"),
+			"loader_version": project.property("loader_version"),
+			"minecraft_version": project.property("minecraft_version")
+	])
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand([
+				"version": project.property("mod_version"),
+				"loader_version": project.property("loader_version"),
+				"minecraft_version": project.property("minecraft_version")
+		])
 	}
 }
 
@@ -68,10 +60,10 @@ java {
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN") // This is the default. Remember to have the MODRINTH_TOKEN environment variable set or else this will fail, or set it to whatever you want - just make sure it stays private!
-	projectId = "campfire-xp" // This can be the project ID or the slug. Either will work!
-	versionType = "release" // This is the default -- can also be `beta` or `alpha`
+	projectId = project.minotaur_projectId // This can be the project ID or the slug. Either will work!
+	versionType = project.minotaur_version_type // This is the default -- can also be `beta` or `alpha`
 	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
-	gameVersions = ["1.20", "1.20.1"] // Must be an array, even with only one version
+	gameVersions = project.minotaur_version_list.split(",").toList() // Must be an array, even with only one version
 	loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 	syncBodyFrom = rootProject.file("README.md").text
 }
