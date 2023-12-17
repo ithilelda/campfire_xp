@@ -64,4 +64,5 @@ modrinth {
 	gameVersions = project.minotaur_version_list.split(",").toList() // Must be an array, even with only one version
 	loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 	syncBodyFrom = rootProject.file("README.md").text
+	changelog = rootProject.file("changelog.md").text
 }
