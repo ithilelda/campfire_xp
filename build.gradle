@@ -3,7 +3,7 @@ plugins {
 	id "com.modrinth.minotaur" version "2.+"
 }
 
-version = project.mod_version + '-' + project.minecraft_version
+version = project.mod_version
 group = project.maven_group
 
 base {
@@ -31,15 +31,13 @@ dependencies {
 processResources {
 	inputs.properties([
 			"mod_version": project.property("mod_version"),
-			"loader_version": project.property("loader_version"),
-			"minecraft_version": project.property("minecraft_version")
+			"loader_version": project.property("loader_version")
 	])
 
 	filesMatching("fabric.mod.json") {
 		expand([
 				"version": project.property("mod_version"),
-				"loader_version": project.property("loader_version"),
-				"minecraft_version": project.property("minecraft_version")
+				"loader_version": project.property("loader_version")
 		])
 	}
 }
