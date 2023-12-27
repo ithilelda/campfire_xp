@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface LivingEntityAccessor {
     @Accessor
     int getPlayerHitTimer();
+
     @Accessor
     void setPlayerHitTimer(int playerHitTimer);
 }

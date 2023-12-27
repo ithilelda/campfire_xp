@@ -23,6 +23,7 @@ public class CampfireBlockEntityMixin {
     private static final int tickSpacing = 10;
     @Unique
     private static int worldTick = tickSpacing;
+
     // always server, no need to check.
     @Inject(at = @At("TAIL"), method = "litServerTick")
     private static void gatherXp(World world, BlockPos pos, BlockState state, CampfireBlockEntity campfire, CallbackInfo ci) {
@@ -35,7 +36,7 @@ public class CampfireBlockEntityMixin {
                     .map(ExperienceOrbEntity.class::cast)
                     .toList();
             int curAmount = CampfireXp.XpMap.getOrDefault(pos, 0);
-            for (ExperienceOrbEntity orb: orbs) {
+            for (ExperienceOrbEntity orb : orbs) {
                 curAmount += orb.getExperienceAmount();
                 orb.discard();
             }
@@ -43,16 +44,18 @@ public class CampfireBlockEntityMixin {
             worldTick = tickSpacing;
         }
     }
+
     @Inject(at = @At("TAIL"), method = "readNbt")
     private void readXp(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("ExperienceAmount", NbtElement.INT_TYPE)) {
             int amount = nbt.getInt("ExperienceAmount");
-            CampfireXp.XpMap.put(((CampfireBlockEntity)(Object)this).getPos(), amount);
+            CampfireXp.XpMap.put(((CampfireBlockEntity) (Object) this).getPos(), amount);
         }
     }
+
     @Inject(at = @At("TAIL"), method = "writeNbt")
     private void writeXp(NbtCompound nbt, CallbackInfo ci) {
-        BlockPos pos = ((CampfireBlockEntity)(Object)this).getPos();
+        BlockPos pos = ((CampfireBlockEntity) (Object) this).getPos();
         int amount = CampfireXp.XpMap.getOrDefault(pos, 0);
         nbt.putInt("ExperienceAmount", amount);
     }
