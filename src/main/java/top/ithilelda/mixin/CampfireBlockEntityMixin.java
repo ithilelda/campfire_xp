@@ -29,7 +29,7 @@ public class CampfireBlockEntityMixin {
     private static void gatherXp(World world, BlockPos pos, BlockState state, CampfireBlockEntity campfire, CallbackInfo ci) {
         if (worldTick-- <= 0) {
             // a 3x3 box around the campfire.
-            Box range = new Box(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 1, pos.getY(), pos.getZ() + 1);
+            Box range = new Box(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
             List<ExperienceOrbEntity> orbs = world.getOtherEntities(null, range)
                     .stream()
                     .filter(ExperienceOrbEntity.class::isInstance)
