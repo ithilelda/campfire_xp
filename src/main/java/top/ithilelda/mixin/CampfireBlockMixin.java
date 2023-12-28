@@ -3,13 +3,9 @@ package top.ithilelda.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -34,8 +30,7 @@ public class CampfireBlockMixin {
                 ExperienceOrbEntity.spawn(sw, player.getPos(), CampfireXp.XpMap.get(pos));
                 CampfireXp.XpMap.put(pos, 0);
                 cir.setReturnValue(ActionResult.SUCCESS);
-            }
-            else if (player.getStackInHand(hand).isEmpty()) {
+            } else if (player.getStackInHand(hand).isEmpty()) {
                 player.sendMessage(Text.of("This campfire currently stores " + CampfireXp.XpMap.getOrDefault(pos, 0) + " points of xp"));
                 cir.setReturnValue(ActionResult.SUCCESS);
             }

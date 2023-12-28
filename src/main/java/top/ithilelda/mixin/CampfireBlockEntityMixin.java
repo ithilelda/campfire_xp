@@ -1,7 +1,5 @@
 package top.ithilelda.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.CampfireBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -10,7 +8,6 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
