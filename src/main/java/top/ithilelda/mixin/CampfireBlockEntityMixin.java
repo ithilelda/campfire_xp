@@ -1,5 +1,7 @@
 package top.ithilelda.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.CampfireBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -8,10 +10,12 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.ithilelda.CampfireXp;
 
@@ -25,11 +29,11 @@ public class CampfireBlockEntityMixin {
     private static int worldTick = tickSpacing;
 
     // always server, no need to check.
-    @Inject(at = @At("TAIL"), method = "litServerTick")
+    @Inject(at = @At("HEAD"), method = "litServerTick")
     private static void gatherXp(World world, BlockPos pos, BlockState state, CampfireBlockEntity campfire, CallbackInfo ci) {
         if (worldTick-- <= 0) {
             // a 3x3 box around the campfire.
-            Box range = new Box(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
+            Box range = new Box(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 1, pos.getZ() + 2);
             List<ExperienceOrbEntity> orbs = world.getOtherEntities(null, range)
                     .stream()
                     .filter(ExperienceOrbEntity.class::isInstance)
@@ -43,6 +47,12 @@ public class CampfireBlockEntityMixin {
             CampfireXp.XpMap.put(pos, curAmount);
             worldTick = tickSpacing;
         }
+    }
+
+    // make the boolean signaling progress always true to circumvent lithium optimization.
+    @ModifyVariable(at = @At("STORE"), method = "litServerTick", ordinal = 0)
+    private static boolean modifyBl(boolean original) {
+        return true;
     }
 
     @Inject(at = @At("TAIL"), method = "readNbt")

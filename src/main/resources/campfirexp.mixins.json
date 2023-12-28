@@ -5,8 +5,7 @@
   "mixins": [
     "CampfireBlockEntityMixin",
     "CampfireBlockMixin",
-    "LivingEntityAccessor",
-    "LivingEntityMixin"
+    "LivingEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
